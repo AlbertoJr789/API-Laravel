@@ -6,3 +6,16 @@
 # ModerniZ-API
 
 [Documentação](https://docs.google.com/document/d/1PGPLBDSXh5zsPUWpLjjr4X3nKOksqdv6UXW-PI07PKk/edit)
+
+-- Instruções
+
+Criar model com a porra toda
+
+    php artisan make:model <nome> --all
+
+Criando Factory
+
+    php artisan make:factory PostFactory
+
+Dentro da classe da factory, utilizando funções do faker para criar dados fictícios
+

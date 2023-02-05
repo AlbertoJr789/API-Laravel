@@ -37,6 +37,7 @@ class Produto extends Model
 
     protected $fillable  = [
         'nome',
+        'marca',
         'preco_custo',
         'preco_venda',
         'preco_promocional',

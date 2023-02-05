@@ -70,6 +70,8 @@ return [
     */
 
     'timezone' => 'America/Sao_Paulo',
+    'date_format' => 'd/m/Y',
+    'datetime_format' => 'd/m/Y H:i:s',
 
     /*
     |--------------------------------------------------------------------------

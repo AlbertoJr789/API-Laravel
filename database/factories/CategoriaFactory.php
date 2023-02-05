@@ -17,11 +17,10 @@ class CategoriaFactory extends Factory
      */
     public function definition()
     {
-        $ids = Categoria::select('id')->get()->toArray();
 
         return [
             'nome' => $this->faker->text(),
-            'categoria_pai_id' => $this->faker->boolean() ? shuffle($ids)[0] ?? null : null,
+            'categoria_pai_id' => null,
         ];
     }
 }

@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use App\Models\Categoria;
-use App\Http\Requests\StoreCategoriaRequest;
-use App\Http\Requests\UpdateCategoriaRequest;
+use App\Http\Requests\V1\StoreCategoriaRequest;
+use App\Http\Requests\V1\UpdateCategoriaRequest;
+use App\Http\Resources\V1\CategoriaResource;
+use App\Http\Resources\V1\CategoriaCollection;
 
 class CategoriaController extends Controller
 {
@@ -15,7 +18,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        return new CategoriaCollection(Categoria::paginate());
     }
 
     /**
@@ -47,7 +50,7 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        //
+        return new CategoriaResource($categoria);
     }
 
     /**

@@ -21,6 +21,7 @@ class ProdutoFactory extends Factory
     {
         return [
             'nome' => $this->faker->text(20),
+            'marca' => $this->faker->text(10),
             'preco_custo' => $this->faker->randomFloat(2,0,20000),
             'preco_venda' => $this->faker->randomFloat(2,0,20000),
             'preco_promocional' => $this->faker->randomFloat(2,0,20000),
@@ -28,7 +29,7 @@ class ProdutoFactory extends Factory
             'estoque' => $this->faker->numberBetween(0,100),
             'sob_consulta' => $this->faker->boolean(),
             'gtin' => str($this->faker->numberBetween(1111111)),
-            'mpn' => $this->faker->text(20),
+            'mpn' => str($this->faker->numberBetween(1111111)),
             'ncm' => str($this->faker->numberBetween(1111111)),
             'disponibilidade' => $this->faker->numberBetween(0,30),
             'link_video' => $this->faker->url(),

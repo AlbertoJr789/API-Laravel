@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\SeoProduto;
-use App\Http\Requests\StoreSeoProdutoRequest;
-use App\Http\Requests\UpdateSeoProdutoRequest;
+use App\Models\Pacote;
+use App\Http\Requests\V1\StorePacoteRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\UpdatePacoteRequest;
+use App\Http\Resources\V1\PacoteCollection;
 
-class SeoProdutoController extends Controller
+class PacoteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +17,7 @@ class SeoProdutoController extends Controller
      */
     public function index()
     {
-        //
+        return new PacoteCollection(Pacote::paginate());
     }
 
     /**
@@ -31,10 +33,10 @@ class SeoProdutoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSeoProdutoRequest  $request
+     * @param  \App\Http\Requests\StorePacoteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSeoProdutoRequest $request)
+    public function store(StorePacoteRequest $request)
     {
         //
     }
@@ -42,21 +44,21 @@ class SeoProdutoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SeoProduto  $seoProduto
+     * @param  \App\Models\Pacote  $pacote
      * @return \Illuminate\Http\Response
      */
-    public function show(SeoProduto $seoProduto)
+    public function show(Pacote $pacote)
     {
-        //
+        return $pacote;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SeoProduto  $seoProduto
+     * @param  \App\Models\Pacote  $pacote
      * @return \Illuminate\Http\Response
      */
-    public function edit(SeoProduto $seoProduto)
+    public function edit(Pacote $pacote)
     {
         //
     }
@@ -64,11 +66,11 @@ class SeoProdutoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSeoProdutoRequest  $request
-     * @param  \App\Models\SeoProduto  $seoProduto
+     * @param  \App\Http\Requests\UpdatePacoteRequest  $request
+     * @param  \App\Models\Pacote  $pacote
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSeoProdutoRequest $request, SeoProduto $seoProduto)
+    public function update(UpdatePacoteRequest $request, Pacote $pacote)
     {
         //
     }
@@ -76,10 +78,10 @@ class SeoProdutoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SeoProduto  $seoProduto
+     * @param  \App\Models\Pacote  $pacote
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SeoProduto $seoProduto)
+    public function destroy(Pacote $pacote)
     {
         //
     }

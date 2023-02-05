@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('url');
             $table->foreignId('produto_id')->references('id')->on('produto');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

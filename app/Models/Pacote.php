@@ -27,9 +27,13 @@ class Pacote extends Model
         'altura',
         'largura',
         'profundidade',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     protected $casts = [
+
         'peso' => 'float',
         'altura' => 'float',
         'largura' => 'float',
@@ -40,5 +44,6 @@ class Pacote extends Model
     public function Produto(){
         return $this->hasMany(Produto::class);
     }
+
 
 }

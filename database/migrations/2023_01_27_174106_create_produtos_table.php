@@ -16,17 +16,18 @@ return new class extends Migration
         Schema::create('produto', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->string('marca')->nullable();
             $table->decimal('preco_custo',10,2)->nullable();
             $table->decimal('preco_venda',10,2)->nullable();
             $table->decimal('preco_promocional',10,2)->nullable();
-            $table->integer('situacao');
+            $table->integer('situacao'); // 1(Novo) - 0(Usado)
             $table->integer('estoque');
-            $table->boolean('sob_consulta');
+            $table->boolean('sob_consulta'); // 1(Sim) - 0(Não)
             $table->integer('disponibilidade');
-            $table->string('gtin');
-            $table->string('mpn');
-            $table->string('ncm');
-            $table->string('link_video');
+            $table->string('gtin')->nullable();
+            $table->string('mpn')->nullable();
+            $table->string('ncm')->nullable();
+            $table->string('link_video')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('pacote_id')->references('id')->on('pacote');

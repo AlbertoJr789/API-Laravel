@@ -15,7 +15,41 @@ Criar model com a porra toda
 
 Criando Factory
 
-    php artisan make:factory PostFactory
+    php artisan make:factory ProdutoFactory
+
+Criando seeder
+
+    php artisan make:seeder ProdutoSeeder
 
 Dentro da classe da factory, utilizando funções do faker para criar dados fictícios
+
+Rotas de API e Resources com Versionamento
+
+Rotas:
+
+método apiResource: providencia todas as rotas de api de padrão RESTful, 
+GET, PUT, PATCH, UPDATE e DELETE. Não é então necessário implementar endpoint por endpoint, basta seguir as convenções.
+
+Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\V1'],function(){
+    Route::apiResource('categorias',CategoriaController::class);
+});
+
+
+Criando Resources para transformar a resposta dos endpoints
+
+    php artisan make:resource NomeResource
+
+Filtros
+
+cria pasta Filters em app, depois arquivo 'Nome'Query
+
+Haverá uma classe base chamada 'Filter', que montará as condiçoes dentro da cláusula where do eloquent
+
+Criando registros
+
+No controller, será chamada a função store()
+
+Será criado uma classe de requisição que tratará destas inserções
+
+    php artisan make:request StoreProdutoRequest
 

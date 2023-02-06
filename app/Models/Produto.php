@@ -33,7 +33,7 @@ class Produto extends Model
 
     public $table = "produto";
 
-    protected $with = ['pacote','seo'];
+    protected $with = ['pacote','seo','imagem'];
 
     protected $fillable  = [
         'nome',

@@ -17,7 +17,7 @@ class CategoriaResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => $this->nome,
-            'categoriaPai' => $this->categoria_pai_id,
+            'categoriaPai' => $this->when($this->pai, new CategoriaResource($this->pai)),
             'dataCriacao' => $this->created_at->format(config('app.datetime_format')),
             'dataEdicao' => $this->updated_at ? $this->updated_at->format(config('app.datetime_format')) : null,
             'dataExclusao' => $this->deleted_at ? $this->deleted_at->format(config('app.datetime_format')) : null

@@ -33,4 +33,8 @@ class Categoria extends Model
         return $this->belongsToMany(Produto::class);
     }
 
+    public function pai(){
+        return $this->belongsTo(Categoria::class,'categoria_pai_id');
+    }
+
 }

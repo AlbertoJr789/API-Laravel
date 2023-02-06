@@ -38,8 +38,8 @@ class StoreProdutoRequest extends FormRequest
             'ncm' => 'nullable',
             'disponibilidade' => 'required|integer',
             'linkVideo' => 'nullable',
-            'pacote' => 'required|integer',
-            'seo' => 'required|integer'
+            'pacote' => 'required',
+            'seo' => 'required'
         ];
     }
 
@@ -54,6 +54,7 @@ class StoreProdutoRequest extends FormRequest
             'link_video' => $this->linkVideo,
             'pacote_id' => $this->pacote,
             'seo_id' => $this->seo,
+            'categoria_pai_id' => $this->categoriaPai,
         ]);
     }
 

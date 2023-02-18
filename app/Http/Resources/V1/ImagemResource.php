@@ -15,7 +15,6 @@ class ImagemResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'url' => $this->url,
             'dataCriacao' => $this->created_at->format(config('app.datetime_format')),
             'dataEdicao' => $this->updated_at ? $this->updated_at->format(config('app.datetime_format')) : null,

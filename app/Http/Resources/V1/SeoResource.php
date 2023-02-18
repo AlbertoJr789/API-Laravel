@@ -15,7 +15,6 @@ class SeoResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'titulo' => $this->titulo,
             'link' => $this->link,
             'descricao' => $this->descricao,

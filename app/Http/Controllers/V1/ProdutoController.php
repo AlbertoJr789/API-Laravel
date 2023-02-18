@@ -4,8 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Filters\V1\ProdutoFilter;
 use App\Models\Produto;
-use App\Http\Requests\V1\StoreProdutoRequest;
-use App\Http\Requests\V1\UpdateProdutoRequest;
+use App\Http\Requests\V1\ProdutoRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ProdutoCollection;
 use App\Http\Resources\V1\ProdutoResource;
@@ -40,12 +39,11 @@ class ProdutoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProdutoRequest  $request
+     * @param  \App\Http\Requests\ProdutoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProdutoRequest $request)
+    public function store(ProdutoRequest $request)
     {
-
         $data = $request->all();
 
         if (!is_numeric($data['pacote'])) {
@@ -68,12 +66,11 @@ class ProdutoController extends Controller
         //processando as categorias
         if (isset($data['categoria'])) {
             foreach ($data['categoria'] as $categoria) {
-                //id de categoria
                 if (isset($categoria['id'])) {
                     $produto->Categoria()->attach($categoria['id']);
-                } else { //nova categoria
+                } else { //significa que usuario está criando nova categoria pelo request
                     if (!is_numeric($categoria['categoriaPai']) && $categoria['categoriaPai'] != null) {
-                        //nova categoria tem novo pai 
+                        //significa que usuario também está criando um novo pai pra Categoria pelo request
                         $produto->Categoria()->attach($this->criarCategoriaPai($categoria, $categoria['categoriaPai']));
                     } else {
                         $produto->Categoria()->attach(Categoria::create($categoria)->id);
@@ -81,7 +78,6 @@ class ProdutoController extends Controller
                 }
             }
         }
-
         return new ProdutoResource(Produto::with('categoria')->find($produto->id));
     }
 
@@ -117,23 +113,21 @@ class ProdutoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProdutoRequest  $request
+     * @param  \App\Http\Requests\ProdutoRequest  $request
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProdutoRequest $request, Produto $produto)
+    public function update(ProdutoRequest $request, Produto $produto)
     {
         $data = $request->all();
 
         if (!is_numeric($data['pacote'])) {
             $data['pacote_id'] = Pacote::create($data['pacote'])->id;
         }
-        $data['seo_id'] = SeoProduto::create($data['seo'])->id;
-
-        $produto = Produto::create($data);
 
         //processando as imagens
         if (isset($data['imagem'])) {
+            $produto->Imagem()->delete();
             foreach ($data['imagem'] as $img) {
                 ImagemProduto::create([
                     'url' => $img['url'],
@@ -144,23 +138,26 @@ class ProdutoController extends Controller
 
         //processando as categorias
         if (isset($data['categoria'])) {
+            $detach = true;
             foreach ($data['categoria'] as $categoria) {
-                //id de categoria
                 if (isset($categoria['id'])) {
-                    $produto->Categoria()->attach($categoria['id']);
-                } else { //nova categoria
+                    $produto->Categoria()->sync($categoria['id'], $detach);
+                } else { //significa que usuario está criando nova categoria pelo request
                     if (!is_numeric($categoria['categoriaPai']) && $categoria['categoriaPai'] != null) {
-                        //nova categoria tem novo pai 
-                        $produto->Categoria()->sync($this->criarCategoriaPai($categoria, $categoria['categoriaPai']));
+                        //significa que usuario também está criando um novo pai pra Categoria pelo request
+                        $produto->Categoria()->sync($this->criarCategoriaPai($categoria, $categoria['categoriaPai']), $detach);
                     } else {
-                        $produto->Categoria()->sync(Categoria::create($categoria)->id);
+                        $produto->Categoria()->sync(Categoria::create($categoria)->id, $detach);
                     }
                 }
+                $detach = false;
             }
         }
 
-        $produto->update($request->all());
-        return new ProdutoResource($produto);
+        $produto->Seo()->update($data['seo']);
+        $data['seo_id'] = $produto->seo_id;
+        $produto->update($data);
+        return new ProdutoResource($produto->loadMissing('categoria'));
     }
 
     /**
@@ -171,6 +168,9 @@ class ProdutoController extends Controller
      */
     public function destroy(Produto $produto)
     {
-        //
+        $produto->Seo()->delete();
+        $produto->Imagem()->delete();
+        $produto->Categoria()->updateExistingPivot($produto->Categoria()->pluck('id'),['deleted_at' => now()]);
+        $produto->delete();
     }
 }

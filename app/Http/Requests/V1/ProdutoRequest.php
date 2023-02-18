@@ -5,10 +5,9 @@ namespace App\Http\Requests\V1;
 use App\Models\Categoria;
 use App\Models\Pacote;
 use App\Rules\PacoteProdutoRule;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProdutoRequest extends FormRequest
+class ProdutoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -36,6 +35,7 @@ class StoreProdutoRequest extends FormRequest
             'situacao' => 'required|in:0,1',
             'estoque' => 'required|integer',
             'sobConsulta' => 'required|in:0,1',
+            'sku' => 'nullable|string',
             'gtin' => 'nullable|string',
             'mpn' => 'nullable|string',
             'ncm' => 'nullable|string',
@@ -74,8 +74,15 @@ class StoreProdutoRequest extends FormRequest
             if (Categoria::where('nome', strtolower($nome))->exists()) {
                 $validator->errors()->add('categorias', "Categoria '$nome' já existe");
             }
-            if (!is_numeric($categoria['categoriaPai']) && $categoria['categoriaPai'] != null) {
-                $this->validarCategoria($validator, $categoria['categoriaPai']);
+            if(!is_string($nome)){
+                $validator->errors()->add('categorias', "Categoria '$nome' deve ser uma string");
+            }
+            if (!array_key_exists('categoriaPai',$categoria)) {
+                $validator->errors()->add('categorias', "Categoria '$nome' sem pai");
+            } else {
+                if (!is_numeric($categoria['categoriaPai']) && $categoria['categoriaPai'] != null) {
+                    $this->validarCategoria($validator, $categoria['categoriaPai']);
+                }
             }
         }
     }

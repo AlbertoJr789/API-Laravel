@@ -8,32 +8,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 /** 
-* @property int id
-* @property string nome
-* @property decimal preco_custo 
-* @property decimal preco_venda 
-* @property decimal preco_promocional 
-* @property integer situacao (novo/usado) 
-* @property integer estoque  
-* @property boolean sob_consulta  
-* @property string gtin  
-* @property string mpn  
-* @property string ncm  
-* @property integer disponibilidade  
-* @property string link_video  
-* @property integer pacote_id
-* @property integer seo_id
-*/
+ * @property int id
+ * @property string nome
+ * @property decimal preco_custo 
+ * @property decimal preco_venda 
+ * @property decimal preco_promocional 
+ * @property integer situacao (novo/usado) 
+ * @property integer estoque  
+ * @property boolean sob_consulta  
+ * @property string gtin  
+ * @property string mpn  
+ * @property string ncm  
+ * @property integer disponibilidade  
+ * @property string link_video  
+ * @property integer pacote_id
+ * @property integer seo_id
+ */
 
 
 class Produto extends Model
 {
     use HasFactory;
-    use SoftDeletes; 
+    use SoftDeletes;
 
     public $table = "produto";
 
-    protected $with = ['pacote','seo','imagem'];
+    protected $with = ['pacote', 'seo', 'imagem'];
 
     protected $fillable  = [
         'nome',
@@ -62,6 +62,7 @@ class Produto extends Model
         'situacao' => 'integer',
         'estoque' => 'integer',
         'sob_consulta' => 'boolean',
+        'sku' => 'string',
         'gtin' => 'string',
         'mpn' => 'string',
         'ncm' => 'string',
@@ -71,20 +72,23 @@ class Produto extends Model
         'seo_id' => 'integer'
     ];
 
-    public function Categoria(){
-       return $this->belongsToMany(Categoria::class)->withTimestamps();
+    public function Categoria()
+    {
+        return $this->belongsToMany(Categoria::class)->withTimestamps();
     }
 
-    public function Pacote(){
+    public function Pacote()
+    {
         return $this->belongsTo(Pacote::class);
     }
 
-    public function Seo(){
+    public function Seo()
+    {
         return $this->belongsTo(SeoProduto::class);
     }
 
-    public function Imagem(){
+    public function Imagem()
+    {
         return $this->hasMany(ImagemProduto::class);
     }
-
 }

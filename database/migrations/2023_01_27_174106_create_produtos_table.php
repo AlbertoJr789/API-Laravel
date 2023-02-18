@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('estoque');
             $table->boolean('sob_consulta'); // 1(Sim) - 0(Não)
             $table->integer('disponibilidade');
-            $table->string('sku');
+            $table->string('sku')->nullable();
             $table->string('gtin')->nullable();
             $table->string('mpn')->nullable();
             $table->string('ncm')->nullable();

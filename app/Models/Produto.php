@@ -44,6 +44,7 @@ class Produto extends Model
         'situacao',
         'estoque',
         'sob_consulta',
+        'sku',
         'gtin',
         'mpn',
         'ncm',

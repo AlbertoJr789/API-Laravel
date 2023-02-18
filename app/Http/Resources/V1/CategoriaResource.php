@@ -18,6 +18,7 @@ class CategoriaResource extends JsonResource
             'id' => $this->id,
             'nome' => $this->nome,
             'categoriaPai' => $this->when($this->pai, new CategoriaResource($this->pai)),
+            'produto' => ProdutoResource::collection($this->whenLoaded('produto')), //produto só carrega se o usuario pedir
             'dataCriacao' => $this->created_at->format(config('app.datetime_format')),
             'dataEdicao' => $this->updated_at ? $this->updated_at->format(config('app.datetime_format')) : null,
             'dataExclusao' => $this->deleted_at ? $this->deleted_at->format(config('app.datetime_format')) : null

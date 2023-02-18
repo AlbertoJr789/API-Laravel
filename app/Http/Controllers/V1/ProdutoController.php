@@ -38,16 +38,6 @@ class ProdutoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreProdutoRequest  $request
@@ -61,8 +51,8 @@ class ProdutoController extends Controller
         if (!is_numeric($data['pacote'])) {
             $data['pacote_id'] = Pacote::create($data['pacote'])->id;
         }
-        $data['seo_id'] = SeoProduto::create($data['seo'])->id;
 
+        $data['seo_id'] = SeoProduto::create($data['seo'])->id;
         $produto = Produto::create($data);
 
         //processando as imagens
@@ -100,13 +90,13 @@ class ProdutoController extends Controller
      * @return $categoria_id
      */
     private function criarCategoriaPai($categoria, $pai)
-    {   
+    {
         //criando categorias recursivamente (caso uma categoria tenha um pai e o pai tenha também o pai e assim por diante...)
         return Categoria::create([
-            'nome' => $categoria['nome'],
+            'nome' => strtolower($categoria['nome']),
             'categoria_pai_id' => (isset($pai['id']) || !$pai)
-                            ? $pai['id'] ?? null
-                            : $this->criarCategoriaPai($pai,$pai['categoriaPai'])
+                ? $pai['id'] ?? null
+                : $this->criarCategoriaPai($pai, $pai['categoriaPai'])
         ])->id;
     }
 
@@ -125,17 +115,6 @@ class ProdutoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Produto  $produto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Produto $produto)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateProdutoRequest  $request
@@ -144,7 +123,44 @@ class ProdutoController extends Controller
      */
     public function update(UpdateProdutoRequest $request, Produto $produto)
     {
-        //
+        $data = $request->all();
+
+        if (!is_numeric($data['pacote'])) {
+            $data['pacote_id'] = Pacote::create($data['pacote'])->id;
+        }
+        $data['seo_id'] = SeoProduto::create($data['seo'])->id;
+
+        $produto = Produto::create($data);
+
+        //processando as imagens
+        if (isset($data['imagem'])) {
+            foreach ($data['imagem'] as $img) {
+                ImagemProduto::create([
+                    'url' => $img['url'],
+                    'produto_id' => $produto->id
+                ]);
+            }
+        }
+
+        //processando as categorias
+        if (isset($data['categoria'])) {
+            foreach ($data['categoria'] as $categoria) {
+                //id de categoria
+                if (isset($categoria['id'])) {
+                    $produto->Categoria()->attach($categoria['id']);
+                } else { //nova categoria
+                    if (!is_numeric($categoria['categoriaPai']) && $categoria['categoriaPai'] != null) {
+                        //nova categoria tem novo pai 
+                        $produto->Categoria()->sync($this->criarCategoriaPai($categoria, $categoria['categoriaPai']));
+                    } else {
+                        $produto->Categoria()->sync(Categoria::create($categoria)->id);
+                    }
+                }
+            }
+        }
+
+        $produto->update($request->all());
+        return new ProdutoResource($produto);
     }
 
     /**

@@ -34,7 +34,10 @@ class Filter{
             //monta um array no estilo [] = ['campo','operador','valorQueryString'], da forma que é tratada pelo eloquent
             foreach($op as $o){
                 if(isset($query[$o])){
-                    $eloQuery[] = [$column,$this->opMap[$o],$query[$o]];
+                    if($this->opMap[$o] == 'like')
+                        $eloQuery[] = [$column,'like',"%$query[$o]%"];
+                    else
+                        $eloQuery[] = [$column,$this->opMap[$o],$query[$o]];
                 }
             }
             

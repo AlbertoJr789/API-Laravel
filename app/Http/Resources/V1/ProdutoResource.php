@@ -15,6 +15,7 @@ class ProdutoResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'nome' => $this->nome,
             'precoCusto' => $this->preco_custo,
             'marca' => $this->marca,
@@ -22,8 +23,9 @@ class ProdutoResource extends JsonResource
             'precoPromocional' => $this->preco_promocional,
             'situacao' => $this->situacao,
             'estoque' => $this->estoque,
-            'sob_consulta' => $this->sob_consulta,
+            'sobConsulta' => $this->sob_consulta,
             'disponibilidade' => $this->disponibilidade,
+            'sku' => $this->sku,
             'gtin' => $this->gtin,
             'mpn' => $this->mpn,
             'ncm' => $this->ncm,

@@ -8,7 +8,7 @@
 
 ## [Documentação](https://docs.google.com/document/d/1PGPLBDSXh5zsPUWpLjjr4X3nKOksqdv6UXW-PI07PKk/edit)
 
-# Instruções
+# Preparações do Projeto
 
 Criando model com a porra toda (Resourcer Controllers, Migrations etc.)
 
@@ -125,7 +125,7 @@ Haverá um método transform(), que montará as condiçoes dentro da cláusula w
 
 ```
 
-Validação de registros
+## Validação de registros
 
 Será criado uma classe de requisição que tratará destas inserções
 
@@ -136,3 +136,30 @@ Cada classe request possuirá regras de validações que serão executadas antes
 # Autenticação
 
 Para autenticação, está sendo utilizado o Laravel [Sanctum](https://laravel.com/docs/10.x/sanctum). Foram definidas duas rotas públicas: Login e Cadastro.
+
+Para geração do token, deve-se enviar o payload
+
+```json
+{
+    "nome": "Administrador",
+    "email": "alberto@teste.com",
+    "password": "teste1234",
+    "password_confirmation": "teste1234"
+}
+```
+
+e será obtido como resposta:
+
+```json
+{
+    "message": "Usuário cadastrado com sucesso!",
+    "user": {
+        "nome": "Administrador",
+        "email": "alberto@teste.com",
+        "updated_at": "2023-02-21T00:18:38.000000Z",
+        "created_at": "2023-02-21T00:18:38.000000Z",
+        "id": 1
+    },
+    "token": "1|Q8pzI7c0oxAVdKRp9yUt4RuhjVbWpLeB8NQCoNqI" //basta adicioná-lo no cabeçalho de toda requisição que necessite de autenticação
+}
+```

@@ -21,6 +21,7 @@ class ProdutoFactory extends Factory
     {
         return [
             'nome' => $this->faker->text(20),
+            'descricao' => $this->faker->text(30),
             'marca' => $this->faker->text(10),
             'preco_custo' => $this->faker->randomFloat(2,0,20000),
             'preco_venda' => $this->faker->randomFloat(2,0,20000),

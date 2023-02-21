@@ -13,6 +13,7 @@ use App\Models\ImagemProduto;
 use App\Models\Pacote;
 use App\Models\SeoProduto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProdutoController extends Controller
 {
@@ -23,6 +24,7 @@ class ProdutoController extends Controller
      */
     public function index(Request $request)
     {
+
         $filter = new ProdutoFilter();
         $filterItems = $filter->transform($request);
 

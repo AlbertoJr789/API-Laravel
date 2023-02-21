@@ -37,6 +37,7 @@ class Produto extends Model
 
     protected $fillable  = [
         'nome',
+        'descricao',
         'marca',
         'preco_custo',
         'preco_venda',
@@ -56,6 +57,7 @@ class Produto extends Model
 
     protected $casts = [
         'nome' => 'string',
+        'descricao' => 'string',
         'preco_custo' => 'double',
         'preco_venda' => 'double',
         'preco_promocional' => 'double',

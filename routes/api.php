@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\V1\CategoriaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,13 +13,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 //rotas da primeira versão
-Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\V1'],function(){
-    Route::apiResource('categorias',CategoriaController::class);
-    Route::apiResource('produtos',ProdutoController::class);
-    Route::apiResource('pacotes',PacoteController::class);
+Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\V1', 'middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('categorias', CategoriaController::class);
+    Route::apiResource('produtos', ProdutoController::class);
+    Route::apiResource('pacotes', PacoteController::class);
 });
+
+Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::post('cadastro', [App\Http\Controllers\AuthController::class, 'cadastro']);
+Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');

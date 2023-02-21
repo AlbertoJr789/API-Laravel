@@ -4,9 +4,11 @@
     Versão 9.48.1
 <p>
 
-# ModerniZ-API
+# API Laravel
 
-## [Documentação](https://docs.google.com/document/d/1PGPLBDSXh5zsPUWpLjjr4X3nKOksqdv6UXW-PI07PKk/edit)
+Este projeto se trata de uma implementação utilizando diversos recursos que a ferramenta é capaz de oferecer para auxiliar na produtividade ao se desenvolver uma API, que serão detalhadas mais para frente.
+
+O projeto possui endpoints para cadastro de Produtos e Categorias, no qual possuem mapeamento N:N de relacionamento e Produtos possuem outros mapeamentos com outras entidades.
 
 # Preparações do Projeto
 
@@ -124,6 +126,12 @@ Haverá um método transform(), que montará as condiçoes dentro da cláusula w
     }
 
 ```
+
+Utilizando filtros via url:
+
+    produtos?estoque[gt]=57&precoCusto[lt]=2000
+
+Buscará produtos com estoque maior que (greater than) 57 e que custam menos de 2000 reais
 
 ## Validação de registros
 

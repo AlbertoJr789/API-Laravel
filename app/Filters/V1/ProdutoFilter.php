@@ -9,6 +9,7 @@ class ProdutoFilter extends Filter {
 
     protected $parms = [
         'id' => ['eq'],
+        'nome' => ['eq','like'],
         'precoCusto' => ['eq','lt','lte','gt','gte'],
         'precoVenda' => ['eq','lt','lte','gt','gte'],
         'precoPromocional' => ['eq','lt','let','gt','gte'],
@@ -35,6 +36,7 @@ class ProdutoFilter extends Filter {
         'lte' => '<=',
         'gt' => '>',
         'gte' => '>=',
+        'like' => 'like'
     ];
 
 }

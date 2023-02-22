@@ -131,7 +131,7 @@ Utilizando filtros via url:
 
     produtos?estoque[gt]=57&precoCusto[lt]=2000
 
-Buscará produtos com estoque maior que (greater than) 57 e que custam menos de 2000 reais
+Buscará produtos com estoque maior que (greater than) 57 e que custam menos (less than) de 2000 reais
 
 ## Validação de registros
 
@@ -145,7 +145,7 @@ Cada classe request possuirá regras de validações que serão executadas antes
 
 Para autenticação, está sendo utilizado o Laravel [Sanctum](https://laravel.com/docs/10.x/sanctum). Foram definidas duas rotas públicas: Login e Cadastro.
 
-Para geração do token, deve-se enviar o payload
+Para geração do token (que seria cadastrar um usuário), deve-se enviar o payload via POST na rota /api/cadastro:
 
 ```json
 {
@@ -171,3 +171,20 @@ e será obtido como resposta:
     "token": "1|Q8pzI7c0oxAVdKRp9yUt4RuhjVbWpLeB8NQCoNqI" //basta adicioná-lo no cabeçalho de toda requisição que necessite de autenticação
 }
 ```
+Para fazer login deste usuário, basta enviar o e-mail e senha via POST para a rota /api/login:
+
+```json
+{
+    "email": "alberto@teste.com",
+    "password": "teste1234",    
+}
+```
+E será retornado o TOKEN deste usuário como resposta:
+
+```json
+{
+    "message": "Usuário Autenticado com sucesso",
+    "token": "2|iuls9SQIBvIMAn7iFfMdLK7HOfcGayDNs0z43kCn"
+}
+```
+

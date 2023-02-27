@@ -12,7 +12,7 @@ O projeto possui endpoints para cadastro de Produtos e Categorias, no qual possu
 
 # Preparações do Projeto
 
-Criando model com a porra toda (Resourcer Controllers, Migrations etc.)
+Criando model com a porra toda (Resource Controllers, Migrations etc.)
 
     php artisan make:model <nome> --all
 
@@ -20,7 +20,7 @@ Criando Factories
 
     php artisan make:factory ProdutoFactory
 
-    Aqui dentro, será feito a geração de registros fakes para o banco, utilizadn o Faker
+    Aqui dentro, será feito a geração de registros fakes para o banco, utilizando o Faker
 
 Criando Seeders
 
